@@ -1,0 +1,21 @@
+# Python
+*.pyc
+__pycache__/
+
+# Ambiente virtual
+venv/
+env/
+.env
+
+# Banco de dados local
+db.sqlite3
+
+# Django static/media
+static/
+media/
+
+# VSCode
+.vscode/
+
+# Node.js (se usar Tailwind)
+node_modules/

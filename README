@@ -1,0 +1,23 @@
+# Ndakusoka - Plataforma de Cursos Online
+
+**Ndakusoka** é uma plataforma online que oferece cursos nas áreas de negócios, marketing e outras, com cursos pagos e gratuitos. A plataforma inclui certificados para cada módulo concluído pelos alunos. O objetivo é fornecer uma maneira acessível e eficiente para aprender e desenvolver novas habilidades em diversas áreas profissionais.
+
+## Funcionalidades
+
+- **Cadastro de Usuários**: Usuários podem criar contas e acessar cursos gratuitos ou pagos.
+- **Módulos de Curso**: Cada curso é dividido em módulos, que os alunos podem concluir para receber certificados.
+- **Certificados**: Ao concluir um módulo, o aluno recebe um certificado digital.
+- **Pagamentos**: Cursos pagos são adquiridos por meio de um sistema de pagamento seguro.
+- **Áreas de Cursos**: Cursos organizados por categorias (negócios, marketing, etc.).
+- **Administração**: Interface de administração para gerenciar cursos, usuários e pagamentos.
+
+## Tecnologias
+
+- **Django**: Framework web Python para desenvolvimento do backend.
+- **Django REST Framework**: Para construção de APIs (caso necessário).
+- **SQLite/PostgreSQL**: Banco de dados relacional.
+- **HTML/CSS/JavaScript**: Tecnologias para a interface do usuário.
+- **Stripe**: Integração para pagamentos online (para cursos pagos).
+
+## Estrutura do Projeto
+
