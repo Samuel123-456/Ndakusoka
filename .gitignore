@@ -19,3 +19,7 @@ media/
 
 # Node.js (se usar Tailwind)
 node_modules/
+
+# extras
+LICENSE.txt
+READ-ME.txt
