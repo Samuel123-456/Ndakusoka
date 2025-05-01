@@ -1,0 +1,53 @@
+{% extends "base/modelo.html" %}
+{% load static %}
+
+{% block 'conteudo' %}
+<!-- Contact Start -->
+
+<div class="messages bg-success text-white" id='div-message'>
+    <div class="">
+        Something went wrong
+    </div>
+</div>
+
+<div class="container-fluid py-5">
+      <div class="container py-5">
+          <div class="text-center mb-5">
+              <h5 class="text-primary text-uppercase mb-3" style="letter-spacing: 5px;">Login</h5>
+              <h1>Começa tua formação</h1>
+          </div>
+          <div class="row justify-content-center">
+              <div class="col-lg-8" style='display:flex; justify-content:center; '>
+                  <div class="contact-form bg-secondary rounded p-5" style='width:500px'>
+                      <div id="success"></div>
+                      <form name="sentMessage" id="contactForm" novalidate="novalidate">
+                            <div class="control-group">
+                                <input type="email" class="form-control border-1 p-4" id="email" placeholder="Email" required="required" data-validation-required-message="Please enter your email" />
+                                <p class="help-block text-danger"></p>
+                            </div>
+
+                            <div class="control-group">
+                              <input type="password" class="form-control border-1 p-4" id="name" placeholder="Senha" required="required" data-validation-required-message="Please enter your name" />
+                              <p class="help-block text-danger"></p>
+                            </div>
+                          
+                            <p>
+                                <span>nao tem uma conta? <strong><a href='{% url 'signup' %}'>Cadastra-te</a><strong></span>
+                            </p>
+
+                            <div class="text-center">
+                                <button class="btn btn-primary btn-lg form-control" type="submit" id="btn">Logar</button>
+                            </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- Contact End -->
+{% endblock 'conteudo' %}
+
+{% block 'jsfiles' %}
+<script src="{% static "js/message.js" %}"></script>
+{% endblock 'jsfiles' %}
+

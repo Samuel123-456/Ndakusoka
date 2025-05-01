@@ -35,4 +35,4 @@ def contact(request):
       template_name = 'web/contact.html'
       ctx = {}
 
-      return render(request, template_name, ctx) 
+      return render(request, template_name, ctx)
