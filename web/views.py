@@ -23,3 +23,16 @@ def course(request):
       ctx = {}
 
       return render(request, template_name, ctx) 
+
+
+def about(request):
+      template_name = 'web/about.html'
+      ctx = {}
+
+      return render(request, template_name, ctx) 
+
+def contact(request):
+      template_name = 'web/contact.html'
+      ctx = {}
+
+      return render(request, template_name, ctx) 
