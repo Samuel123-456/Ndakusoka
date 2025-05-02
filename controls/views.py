@@ -1,11 +1,21 @@
 from django.shortcuts import render, redirect
 from controls.signup import FormSignup
+from controls.signin import Control
+from django.contrib.auth import login, logout
 
 # Create your views here.
 
 def signin(request):
       template_name = 'controls/signin.html'
       ctx = {}
+
+      if request.method == 'POST':
+            control = Control(request)
+            user = control.signin()
+
+            if user:
+                  login(request, user)
+                  return redirect('home')
 
       return render(request, template_name, ctx)
 
@@ -31,4 +41,9 @@ def signup(request):
             return render(request, template_name, ctx)
 
 def signout(request):
-      ...
+      control = Control(request)
+      is_out = control.signout()
+
+      if not is_out:
+            return redirect('')
+      return redirect('signin')
