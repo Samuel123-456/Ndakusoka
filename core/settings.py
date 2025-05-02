@@ -1,4 +1,5 @@
 from pathlib import Path
+from django.contrib.messages import constants
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -117,6 +118,13 @@ STATIC_ROOT = BASE_DIR.joinpath('static')
 # MEDIA FILES
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR.joinpath('media')
+
+# MESSAGE CONFIGURATION
+MESSAGE_TAGS = {
+    constants.ERROR: 'alert alert-danger text-red',
+    constants.WARNING: 'alert alert-warning text-warning',
+    constants.SUCCESS: 'alert alert-success text-success',
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

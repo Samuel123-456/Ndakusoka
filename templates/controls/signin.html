@@ -4,13 +4,19 @@
 {% block 'conteudo' %}
 <!-- Contact Start -->
 
-<div class="messages bg-success text-white" id='div-message'>
-    <div class="">
-        Something went wrong
+{% comment %} # TODO: STYLE MESSAGE DIV {% endcomment %}
+{% if messages %}
+    {% for message in messages %}
+    {#id='div-message'#}
+    <div class="{{message.tags}} position-absolute m-3"  style='right:0'>
+        <div class="">
+            {{message}}
+        </div>
     </div>
-</div>
+    {% endfor %}
+{% endif %}
 
-<div class="container-fluid py-5">
+<div class="container-fluid py-2">
       <div class="container py-5">
           <div class="text-center mb-5">
               <h5 class="text-primary text-uppercase mb-3" style="letter-spacing: 5px;">Login</h5>
