@@ -1,6 +1,32 @@
 from django.db import models
+from teacher.models import Teacher
 
 # Create your models here.
+class Course(models.Model):
+      #TODO: DOC DO COURSE
+      """
+      """
+      CATEGORY_CHOICES = [
+            ('FC', 'FINANCAS E CONTABILIDADE'),
+            ('NI', 'NEGOCIOS INTERNACIONAIS'),
+            ('AG', 'ADMINISTRACAO E GESTAO'),
+            ('MV', 'MARKETING E VENDAS'),
+            ('EMP', 'EMPREENDEDORISMO'),
+            ('AD', 'ANALISE DE DADOS'),
+            ('RH', 'RECURSOS HUMANOS'),
+      ]
+
+      name = models.CharField(max_length=300)
+      description = models.TextField()
+      teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+      price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+      cover = models.FileField(upload_to='course_cover/')
+      category = models.CharField(max_length=5, choices=CATEGORY_CHOICES)
+      created_at = models.DateField()
+
+      def __str__(self):
+            return self.name
+
 class Module(models.Model):
       """
       Model Module
@@ -9,12 +35,13 @@ class Module(models.Model):
       Atributes
             title (str): the title of one module
             date_published (datetime): the date that this module was published
-
+            course (Course): The course where the Module corresponde
       Methods
             __str__ : returns the title of the module
       """
 
       title = models.CharField(max_length=300)
+      course = models.ForeignKey(Course, models.CASCADE)
       date_published = models.DateTimeField()
 
       def __str__(self):
