@@ -26,6 +26,25 @@ class Course(models.Model):
 
       def __str__(self):
             return self.name
+      
+      def hour_load(self):
+            modulos = Module.objects.filter(course=self)
+
+            total_hour = total_minute = 0
+            for modulo in modulos:
+                  lessons = Lesson.objects.filter(modulo=modulo)
+                  hora = minuto = 0
+
+                  for lesson in lessons:
+                        hora += lesson.video.time.hour
+                        minuto += lesson.video.time.minute
+
+                  total_hour += hora
+                  total_minute += minuto
+
+            return (f'{total_hour}h {total_minute}m')
+
+
 
 class Module(models.Model):
       """
@@ -47,6 +66,8 @@ class Module(models.Model):
       def __str__(self):
             return self.title
 
+      def hour(self):
+            return Lesson.objects.filter(modulo=self)
 
 class Video(models.Model):
       """
@@ -95,6 +116,7 @@ class Lesson(models.Model):
             title (str): Indicate the title of this lesson
             video (file): The video of this lesson
             materioa (file): pdf or anyother file containing the explanation od the lesson
+            modulo (Module): The current lesson belongs to this Module
             order (int): Indicate the order of lesson
             date_published (datetime): the date and time that this lesson was published
       Methods
