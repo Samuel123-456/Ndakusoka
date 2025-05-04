@@ -2,7 +2,6 @@ from django.urls import path
 from web.views import (
       teachers,
       contact,
-      course,
       about,
       home,
 )
@@ -10,7 +9,6 @@ from web.views import (
 urlpatterns = [
       path('teacher/', teachers, name='teachers'),
       path('contact/', contact, name='contact'),
-      path('course/', course, name='course'),
       path('about/', about, name='about'),
-      path('home/', home, name='home'),
+      path('', home, name='home'),
 ]

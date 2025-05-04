@@ -16,13 +16,7 @@ def teachers(request):
 
       return render(request, template_name, ctx)
 
-      # TODO: USAR JS PARA QUANDO CLICAR NUM MENU ELE PINTA O RECENTE
-
-def course(request):
-      template_name = 'web/course.html'
-      ctx = {}
-
-      return render(request, template_name, ctx) 
+      # TODO: USAR JS PARA QUANDO CLICAR NUM MENU ELE PINTA O RECENTE 
 
 
 def about(request):
