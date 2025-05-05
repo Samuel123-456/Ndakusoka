@@ -1,5 +1,7 @@
 from django.db import models
 from teacher.models import Teacher
+from secrets import token_urlsafe
+from random import shuffle
 
 # Create your models here.
 class Course(models.Model):
@@ -19,6 +21,7 @@ class Course(models.Model):
       name = models.CharField(max_length=300)
       description = models.TextField()
       teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+      slug = models.SlugField(null=True, blank=True, default=None, unique=True, editable=False)
       price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
       cover = models.FileField(upload_to='course_cover/')
       category = models.CharField(max_length=5, choices=CATEGORY_CHOICES)
@@ -26,6 +29,19 @@ class Course(models.Model):
 
       def __str__(self):
             return self.name
+
+      def save(self, *args, **kwargs):
+            if not self.slug:
+                  token = list(token_urlsafe(16))
+
+                  shuffle(token)
+                  
+                  slug = ''
+                  for char in token:
+                        slug += char
+
+                  self.slug = slug
+            return super().save(*args, **kwargs)
       
       def hour_load(self):
             modulos = Module.objects.filter(course=self)
@@ -66,8 +82,8 @@ class Module(models.Model):
       def __str__(self):
             return self.title
 
-      def hour(self):
-            return Lesson.objects.filter(modulo=self)
+      def total_lesson(self):
+            return len(Lesson.objects.filter(modulo=self))
 
 class Video(models.Model):
       """
