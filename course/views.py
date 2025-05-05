@@ -1,25 +1,29 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from course.models import Course, Module
-from datetime import timedelta
 
 # Create your views here.
-class CourseView(View):
-      def __init__(self, **kwargs):
-            super().__init__(**kwargs)
-            self.template_name = 'web/course.html'
-            
-      def get(self, request):
+def viewCourses(request):
+      if request.method == 'GET':
+            template_name = 'course/course.html'
             ctx = {}
-            courses = Course.objects.all()
-            ctx['courses'] = courses
 
+            ctx['courses'] = Course.objects.all()
 
-            return render(request, self.template_name, ctx)
+            return render(request, template_name, ctx)
 
+def viewCourseSingle(request, slug):
+      template_name = 'course/single.html'
+      ctx = {}
+      course = Course.objects.filter(slug=slug)
 
-#def course(request):
-#      template_name = 'web/course.html'
-#      ctx = {}
+      if not course.exists():
+            return redirect('course')
+      
+      course = course.first()
+      modules = Module.objects.filter(course=course)
 
-#      return render(request, template_name, ctx)
+      ctx['course'] = course
+      ctx['modules'] = modules
+      
+      return render(request, template_name, ctx)
