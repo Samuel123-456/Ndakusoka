@@ -53,20 +53,6 @@ class FormSignup(forms.Form):
             )
       )
 
-      birth_date = forms.DateField(
-            widget=forms.DateInput(
-      
-                  attrs={
-                        'class': "form-control border-1",
-                        'name': 'date',
-                        'type': 'date',
-                        'id': "date",
-                        'required': "required",
-                        'data-validation-required-message': "Porfavor insira sua data de nascimento"
-                  }
-            )
-      )
-
       password = forms.CharField(
             widget=forms.PasswordInput(
                   attrs={
@@ -118,6 +104,15 @@ class FormSignup(forms.Form):
                   messages.add_message(self.request, messages.WARNING, 'Email nao foi informado')
                   raise forms.ValidationError('Email not informed')
             
+            if User.objects.filter(email=email).exists():
+                  messages.add_message(self.request, messages.ERROR, 'Este email ja existe')
+                  raise forms.ValidationError('User email already exists')
+            
+            if User.objects.filter(username=first_name+last_name).exists():
+                  messages.add_message(self.request, messages.ERROR, 'Usuario com este nome ja existe')
+                  raise forms.ValidationError('Username already exists')
+
+            
             if not password:
                   messages.add_message(self.request, messages.WARNING, 'senha nao foi informado')
                   raise forms.ValidationError('Password not informed')
@@ -140,8 +135,8 @@ class FormSignup(forms.Form):
             first_name: str = data_cleaned.get('first_name')
             last_name: str = data_cleaned.get('last_name')
             email: str = data_cleaned.get('email')
-            birth_date: str = data_cleaned.get('birth_date')
             password: str = data_cleaned.get('password')
+
 
 
             with transaction.atomic():
@@ -153,11 +148,4 @@ class FormSignup(forms.Form):
                         last_name=last_name
                   )
 
-                  student = Student(
-                        user=user,
-                        birth_date=birth_date
-                  )
-
-                  student.save()
-
-                  messages.add_message(self.request, messages.SUCCESS, 'Aluno cadastrado com sucesso')
+                  messages.add_message(self.request, messages.SUCCESS, 'Usuario cadastrado com sucesso')

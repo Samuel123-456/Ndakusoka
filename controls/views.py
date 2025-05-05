@@ -4,7 +4,7 @@ from controls.signin import Control
 from django.contrib.auth import login, logout
 
 # Create your views here.
-
+#TODO: OPCAO DE RECUPERAR SENHA, COLOCANDO O EMAIL SER ENIVADO UM TOKEN PARA RENOVAR A PASSWORD
 def signin(request):
       template_name = 'controls/signin.html'
       ctx = {}
@@ -45,5 +45,5 @@ def signout(request):
       is_out = control.signout()
 
       if not is_out:
-            return redirect('')
+            return redirect('home')
       return redirect('signin')
