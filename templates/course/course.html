@@ -38,7 +38,7 @@
                                     <small class="m-0"><i class="fa fa-users text-primary mr-2"></i>25 Students</small>
                                     <small class="m-0"><i class="far fa-clock text-primary mr-2"></i>{{course.hour_load}}</small>
                                 </div>
-                                <a class="" href="">{{course.name|truncatechars:35}}</a>
+                                <a class="" href="{% url "course_single" course.slug %}">{{course.name|truncatechars:33}}</a>
                                 <div class="border-top mt-2 pt-4">
                                     <div class="d-flex justify-content-between">
                                         <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>
