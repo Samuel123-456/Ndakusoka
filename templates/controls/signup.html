@@ -7,9 +7,10 @@
 {% if messages %}
     {% for message in messages %}
     {#id='div-message'#}
-    <div class="{{message.tags}} position-absolute m-3"  style='right:0'>
-        <div class="">
-            {{message}}
+    <div class="{{message.tags}} position-absolute m-3" id='div-messages' style='right:0'>
+        <div class="" id='django-message'>
+                <em>{{message}}</em>
+                <button style='right:0' class='btn btn-close p-0 ml-5 ' id='btn-close-messages'>x</button>
         </div>
     </div>
     {% endfor %}
@@ -43,12 +44,12 @@
                                 <p class="help-block text-danger"></p>
                             </div>
 
-                            <div class="control-group">
+                            {% comment %} <div class="control-group">
                                 <label for='date'>Nascimento</label>
                                 {{formset.birth_date}}
                                 {# <input type="date" class="form-control border-1" name='date' id="date" placeholder="email" required="required" data-validation-required-message="Please enter your email" /> #}
                                 <p class="help-block text-danger"></p>
-                            </div>
+                            </div> {% endcomment %}
 
                             <div class="control-group d-flex">
                                 {{formset.password}}
@@ -77,6 +78,6 @@
 {% endblock 'conteudo' %}
 
 {% block 'jsfiles' %}
-{% comment %} <script src="{% static "js/message.js" %}"></script> {% endcomment %}
+<script src="{% static "js/message.js" %}"></script>
 {% endblock 'jsfiles' %}
 
