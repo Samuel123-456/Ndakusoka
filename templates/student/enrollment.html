@@ -1,0 +1,68 @@
+
+{% extends "base/modelo.html" %}
+{% load static %}
+
+{% block 'conteudo' %}
+<!-- Contact Start -->
+{% if messages %}
+    {% for message in messages %}
+    {#id='div-message'#}
+    <div class="{{message.tags}} position-absolute m-3" id='div-messages' style='right:0'>
+        <div class="" id='django-message'>
+                <em>{{message}}</em>
+                <button style='right:0' class='btn btn-close p-0 ml-5 ' id='btn-close-messages'>x</button>
+        </div>
+    </div>
+    {% endfor %}
+{% endif %}
+
+<div class="container-fluid py-2">
+      <div class="container py-5">
+          <div class="text-center mb-5">
+              <h5 class="text-primary text-uppercase mb-3" style="letter-spacing: 5px;">Matricula</h5>
+              <h1>Começa tua formação</h1>
+          </div>
+          <div class="row justify-content-center">
+              <div class="col-lg-8" style='display:flex; justify-content:center;'>
+                  <div class="contact-form bg-secondary rounded p-5" style='width:500px'>
+                      <div id="success"></div>
+                      <form name="sentMessage" method='POST' action="{% url 'enrollment' %}">
+                            
+                            {% csrf_token %}
+                            <div class="control-group d-flex mb-2">
+                                {{formset.name_certificate}}
+                            </div>
+
+                            <div class="control-group">
+                                {{formset.phone_number}}
+                            </div>
+
+
+                            <div class="control-group mb-3">
+                                <label for='birth'>Data de Nascimento</label>
+                                {{formset.birth_date}}
+                            </div>
+
+                          
+
+
+                            <div class="control-group mb-4">
+                                {{formset.bio}}
+                            </div>
+                          
+                            <div class="text-center">
+                                <button class="btn btn-primary btn-lg form-control" type="submit" id="btn">Cadastrar</button>
+                            </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- Contact End -->
+{% endblock 'conteudo' %}
+
+{% block 'jsfiles' %}
+<script src="{% static 'js/message.js' %}"></script>
+{% endblock 'jsfiles' %}
+

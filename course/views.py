@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django.views import View
 from course.models import Course, Module
 
 # Create your views here.

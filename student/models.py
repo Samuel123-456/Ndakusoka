@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
+from course.models import Course
 
 
 # Create your models here.
@@ -29,10 +30,11 @@ class Student(models.Model):
 
       phone = models.CharField(max_length=9, verbose_name='tel(+244)', blank=True)
       birth_date = models.DateField(verbose_name='Data de nascimento')
+      name_certificate = models.CharField(max_length=100, verbose_name='Nome para o certificado')
       profile_image = models.ImageField(verbose_name='Foto de Perfil', upload_to='profile/', blank=True)
       bio = models.TextField(verbose_name='Descricao', blank=True)
-      slug = models.SlugField(verbose_name='nome na url', default=None, blank=True)
-      token = models.CharField(max_length=30, blank=True)
+      slug = models.SlugField(verbose_name='nome na url', default=None, blank=True, editable=False)
+      token = models.CharField(max_length=30, blank=True, editable=False) # por equanto nao sera editavel, qual aparecer uma funcionalidade que exige
 
       #TODO: VERIFICAR SE O BLANK FUNCIONA MELHOR
 
@@ -43,3 +45,26 @@ class Student(models.Model):
             if not self.slug:
                   self.slug = slugify(f'{self.user.first_name} {self.user.last_name}')
             return super().save(*args, **kwargs)
+
+
+class Enrollment(models.Model):
+      """
+      Model Enrollmant
+            def: Allows student to make enrollment
+      
+      Atributes
+            course (Course): Course where Student will be enrolled to
+            student (Student): Student to be enrolled
+            is_payed (bool): If True, means that the course is payed else if False then the course is not payed
+                  default: False
+            date_enrolled (datetime): the date and time when the student is enrolled
+      """
+
+      course = models.ForeignKey(Course, models.CASCADE)
+      student = models.ForeignKey(Student, models.CASCADE)
+      is_payed = models.BooleanField(default=False)
+
+      date_enrolled = models.DateTimeField(verbose_name='Data de inscricao')
+
+      def __str__(self):
+            return f'{self.student.name_certificate} ({self.course.name[:20]}...)'

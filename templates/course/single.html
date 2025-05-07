@@ -14,11 +14,7 @@
                         <h6 class="text-primary mb-3">{{course.created_at}}</h6>
                         <h1 class="mb-5">{{course.name}}</h1>
                         <img class="img-fluid rounded w-100 mb-4" src="{{course.cover.url}}" alt="Image">
-                        <p class='text-justify'>Sadipscing labore amet rebum est et justo gubergren. Et eirmod ipsum sit diam ut magna lorem.
-                            Nonumy vero labore lorem sanctus rebum et lorem magna kasd, stet amet magna accusam
-                            consetetur eirmod. Kasd accusam sit ipsum sadipscing et at at sanctus et. Ipsum sit
-                            gubergren dolores et, consetetur justo invidunt at et aliquyam ut et vero clita. Diam sea
-                            sea no sed dolores diam nonumy, gubergren sit stet no diam kasd vero.</p>
+                        <p class='text-justify'>{{course.description}}</p>
                         
                   
                     </div>
@@ -97,7 +93,7 @@
                     <div class="d-flex flex-column text-center bg-dark rounded mb-5 py-5 px-4">
                         <img src="{{course.teacher.profile_image.url}}" class="img-fluid rounded-circle mx-auto mb-3" style="width: 100px;">
                         <h3 class="text-primary mb-3">{{course.teacher}}</h3>
-                        <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Tag Cloud</h3>
+                        <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">{{course.teacher.field}}</h3>
                         <p class="text-white m-0">{{course.teacher.bio}}</p>
                     </div>
 
@@ -111,7 +107,7 @@
                                 <a href="" class="btn btn-primary btn-lg form-control text-decoration-none m-0"><strong class='font-size-40'>(AOA) {{course.price}}</strong></a>
                             </li>
                             <li class=" d-flex justify-content-between align-items-center px-0">
-                                <a href="#" class=" text-decoration-none m-0"><strong class='font-size-40'>Quero me matricular de forma gratuita.</a>
+                                <a href="{% url 'enrollment' %}?course={{course.slug}}" class=" text-decoration-none m-0"><strong class='font-size-40'>Quero me matricular de forma gratuita.</a>
                             </li>
                         </ul>
                     </div>

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-from controls.signup import FormSignup
-from controls.signin import Control
-from django.contrib.auth import login, logout
+from controls.forms import FormSignup
+from controls.control_signin import Control
+from django.contrib.auth import login
 
 # Create your views here.
 #TODO: OPCAO DE RECUPERAR SENHA, COLOCANDO O EMAIL SER ENIVADO UM TOKEN PARA RENOVAR A PASSWORD
@@ -44,6 +44,4 @@ def signout(request):
       control = Control(request)
       is_out = control.signout()
 
-      if not is_out:
-            return redirect('home')
-      return redirect('signin')
+      return redirect('signin') if is_out else redirect('home')
