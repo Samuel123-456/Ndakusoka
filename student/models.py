@@ -10,7 +10,7 @@ class Student(models.Model):
       Model Student
             def: Referente ao aluno a ser matriculado no site
       
-      Atributos
+      Attributos
             user (User): indica que um estudante e um e apenas um User
                   -> username, password, email, first_name, last_name, date_joined
             birth_date (date): data de nascimento do aluno
@@ -21,7 +21,8 @@ class Student(models.Model):
             bio (str): descricao sobre o aluno
             slug (slug): indentificador na url
             token (str): chave que vai servir para alguns acessos
-      Metodos
+            
+      Methods
             __str__ : returna o nome de usuario do aluno
             save : cria um slug para aluno antes de salvar
 

@@ -2,11 +2,30 @@ from django.db import models
 from teacher.models import Teacher
 from secrets import token_urlsafe
 from random import shuffle
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Course(models.Model):
       #TODO: DOC DO COURSE
       """
+      Model Course
+            def: Refers to the courses that will be registered on the platform
+
+      Attributes
+            name (str): The course name
+            description (str): A text, Ex: What will be taught on the platform
+            teacher (Teacher): The author/Instructor of the course
+            price (Decimal): The quantity in money representing the price of the course
+            slug (Slug): The textcharacter that will be  shown on the url
+            cover (Image): The photo of the course to be shown as the representation
+            category (str): A choice of type of course that the platform offers
+            created_at (date): date when the course was published
+
+      Methods:
+            __str__ : returns the course name
+            save : create a slug from token_urlsafe with 16 chars and shuffles it so it can not be the same as prevention, and then makes the normal django models.save
+            hour_load : returns the total of hour in the course videos
+
       """
       CATEGORY_CHOICES = [
             ('FC', 'FINANCAS E CONTABILIDADE'),
@@ -59,6 +78,9 @@ class Course(models.Model):
                   total_minute += minuto
 
             return (f'{total_hour}h {total_minute}m')
+      
+      def get_total_comments(self):
+            return Comment.objects.filter(course=self, is_active=True).count()
 
 
 
@@ -67,7 +89,7 @@ class Module(models.Model):
       Model Module
             def: Is the module of one Curso
       
-      Atributes
+      Attributes
             title (str): the title of one module
             date_published (datetime): the date that this module was published
             course (Course): The course where the Module corresponde
@@ -90,10 +112,12 @@ class Video(models.Model):
       Model Video
             def: The video of one lesson
       
-      Atributes
+      Attributes
             title (str): the title of the video
             time (time): the video duration (H/M/S)
             video (file): the path of the corresponding video
+      Methods
+            __str__ : returns the title of the video
       """
 
       title = models.CharField(max_length=300)
@@ -128,7 +152,7 @@ class Lesson(models.Model):
       Model Lesson
             def: create a lesson for a module, the lesson is the relation between one video and material, the lesson can have only one video and one material
       
-      Atributes
+      Attributes
             title (str): Indicate the title of this lesson
             video (file): The video of this lesson
             materioa (file): pdf or anyother file containing the explanation od the lesson
@@ -150,5 +174,64 @@ class Lesson(models.Model):
 
       def __str__(self):
             return self.title
+      
+
+class Chat(models.Model):
+      """
+      Model Chat
+            def: Refers to the chats that my platform will have
+
+      Attributes
+            name (str): the name of the chat, not really relevante but is necessary for future plans
+            slug (Slug): the representation of the chat 
+
+      Methods
+            save : creates the slug field before django default save 
+      """
+
+      CHAT_CHOICES = [
+            ('Course', 'Single Course')
+      ]
+
+      name = models.CharField(max_length=20, choices=CHAT_CHOICES)
+      slug = models.SlugField(default=None, editable=False)
+
+      def save(self, *args, **kwargs):
+            if not self.slug:
+                  self.slug = token_urlsafe(8)
+            return super().save(*args, **kwargs)
+      
+      def __str__(self):
+            return self.name
 
 
+class Comment(models.Model):
+      """
+      Model Comment
+            def: A chat comment from users
+      
+      Attributes
+            author (User/Teacher/Student): A user of the platform
+            course (Course): The course this message belongs to
+            text (str): the message to be commented
+            date_commented (datetime): Refers to the date and time that this message was posted
+            is_active (bool): the message will not be delated but only change the status
+      """
+      author = models.ForeignKey(User, models.CASCADE)
+      course = models.ForeignKey(Course, models.CASCADE)
+      text = models.TextField(verbose_name='Comentario')
+      date_commented = models.DateTimeField()
+
+      is_active = models.BooleanField(default=True)
+
+      def __str__(self):
+            return self.author.username+' -> '+self.course.name
+      
+      def get_author_by_user(self):
+            from student.models import Student
+
+            user = [Student.objects.filter(user=self.author), Teacher.objects.filter(user=self.author)]
+            if user[0].exists():
+                  return user[0].first()
+            elif user[1].exists():
+                  return user[1].first()

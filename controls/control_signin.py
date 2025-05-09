@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, logout
 from django.contrib import messages
 
-class Control():
+class Control:
       def __init__(self, request=None):
             self.request = request
             self.email = self.request.POST.get('email')

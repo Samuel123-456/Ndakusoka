@@ -4,7 +4,10 @@ from course.models import (
       Lesson,
       Material,
       Module,
-      Course
+      Course,
+      # Teste
+      Comment, 
+      Chat
 )
 
 # Register your models here.
@@ -13,3 +16,5 @@ admin.site.register(Lesson)
 admin.site.register(Course)
 admin.site.register(Material)
 admin.site.register(Module)
+
+admin.site.register((Comment, Chat))
