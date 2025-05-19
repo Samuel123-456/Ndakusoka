@@ -220,7 +220,7 @@ class Comment(models.Model):
       author = models.ForeignKey(User, models.CASCADE)
       course = models.ForeignKey(Course, models.CASCADE)
       text = models.TextField(verbose_name='Comentario')
-      date_commented = models.DateTimeField()
+      date_commented = models.DateTimeField(auto_now_add=True)
 
       is_active = models.BooleanField(default=True)
 
@@ -229,9 +229,13 @@ class Comment(models.Model):
       
       def get_author_by_user(self):
             from student.models import Student
+            user = {
+                  "students": Student.objects.filter(user=self.author),
+                  "teacher": Teacher.objects.filter(user=self.author)
+            }
 
-            user = [Student.objects.filter(user=self.author), Teacher.objects.filter(user=self.author)]
-            if user[0].exists():
-                  return user[0].first()
-            elif user[1].exists():
-                  return user[1].first()
+            if user['students'].exists():
+                  return user['students'].first()
+            elif user['teacher'].exists():
+                  return user['teacher'].first()
+            return None
