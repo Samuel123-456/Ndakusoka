@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
+from secrets import token_urlsafe
 
 # Create your models here.
 class Teacher(models.Model):
@@ -46,5 +47,9 @@ class Teacher(models.Model):
       def save(self, *args, **kwargs):
             if not self.slug:
                   self.slug = slugify(f'{self.user.first_name} {self.user.last_name}')
+            
+            if not self.token:
+                  self.token = token_urlsafe()
+            
             return super().save(*args, **kwargs)
       
