@@ -1,8 +1,10 @@
 from django import forms
 from django.contrib import messages
 from django.db import transaction
+from django.shortcuts import redirect
 from student.models import Student, Enrollment
 from course.models import Course
+from django.utils.timezone import datetime
 
 
 class EnrollmentForm(forms.Form):
@@ -56,6 +58,7 @@ class EnrollmentForm(forms.Form):
  
 
       bio = forms.CharField(
+            required=False,
             widget=forms.Textarea(
                   attrs={
                         'class': "form-control border-1  mb-2",
@@ -63,7 +66,6 @@ class EnrollmentForm(forms.Form):
                         'id': "bio",
                         'rows':"5",
                         'placeholder': "Porque escolheu esse curso?",
-                        'data-validation-required-message': "Porfavor insira seu numero de telefone"
                   }
             )
       )
@@ -95,6 +97,13 @@ class EnrollmentForm(forms.Form):
             return cleaned_data 
       
       def save(self):
+
+            slug_course = self.request.COOKIES.get('course')
+            course = Course.objects.filter(slug=slug_course)
+            if not course.exists():
+                  messages.add_message(self.request, messages.ERROR, "Curso nao encontrado")
+                  return redirect(f'/student/enrollment/?course={slug_course}')
+
             cleaned_data = super().clean()
 
             
@@ -113,4 +122,12 @@ class EnrollmentForm(forms.Form):
                   )
                   student.save()
 
-                  enrollment = Enrollment()
+                  enrollment = Enrollment(
+                        course=course.first(),
+                        student = student,
+                        date_enrolled = datetime.now()
+                  )
+
+                  enrollment.save()
+
+            
