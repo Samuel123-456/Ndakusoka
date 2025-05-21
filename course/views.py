@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from course.models import (
       Course, 
       Module,
       Comment
 )
+from student.models import Enrollment
 from django.contrib import messages
 
 # Create your views here.
@@ -21,19 +22,18 @@ def viewCourseSingle(request, slug):
       ctx = {}
 
       course = Course.objects.filter(slug=slug)
-
-      print(request)
-
       if not course.exists():
             return redirect('course')
       
       course = course.first()
       modules = Module.objects.filter(course=course)
       commets = Comment.objects.filter(course=course)
+      student = Enrollment.objects.filter(student__user=request.user, course=course)
 
       ctx['course'] = course
       ctx['modules'] = modules
       ctx['comments'] = commets.order_by('date_commented')
+      ctx['student'] = student
       
       template_render = render(request, template_name, ctx)
       template_render.set_cookie('course', slug)
@@ -47,9 +47,11 @@ def comment(request):
                   return redirect('home')
             
             course = Course.objects.get(slug=cookies['course'])
+            # course = get_object_or_404(Course, slug=slug)
             user = request.user
 
-            url = f'/course/course-single/{course.slug}'
+            #TODO: reverse()
+            url = f'/course/course-single/{course.slug}/'
 
             text = request.POST.get('text')
 
@@ -66,6 +68,7 @@ def comment(request):
 
             comment.save()
             return redirect(url)
+      # redirect(reverse('course_single', kwargs={'slug': {course.slug}}))
 
 def remove_comment(request, id):
       comment = Comment.objects.filter(id=id)
