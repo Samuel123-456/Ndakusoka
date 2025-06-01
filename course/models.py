@@ -167,9 +167,17 @@ class Lesson(models.Model):
       video = models.OneToOneField(Video, models.CASCADE)
       material = models.OneToOneField(Material, models.CASCADE)
       modulo = models.ForeignKey(Module, null=True, on_delete=models.CASCADE)
+      about = models.TextField()
 
       order = models.IntegerField(verbose_name='Ordem da aula', unique=True)
       date_published = models.DateTimeField(auto_now_add=True)
+
+      slug = models.SlugField(default=None, editable=False)
+
+      def save(self, *args, **kwargs):
+            if not self.slug:
+                  self.slug = token_urlsafe(8)
+            return super().save(*args, **kwargs)
 
 
       def __str__(self):
