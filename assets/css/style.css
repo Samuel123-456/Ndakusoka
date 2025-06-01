@@ -9973,3 +9973,17 @@ h6,
   border-bottom-right-radius: 0;
   display: none;
 }
+
+/* FILE PICK */
+.openfile {
+  opacity: 0;
+}
+.main-file {
+  background-color: var(--primary);
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.main-file p {
+  position: absolute;
+}
