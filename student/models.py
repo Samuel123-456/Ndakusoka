@@ -28,7 +28,7 @@ class Student(models.Model):
 
       """
 
-      user = models.OneToOneField(User, models.CASCADE)
+      user = models.ForeignKey(User, models.CASCADE)
 
       phone = models.CharField(max_length=9, verbose_name='tel(+244)', blank=True)
       birth_date = models.DateField(verbose_name='Data de nascimento')
