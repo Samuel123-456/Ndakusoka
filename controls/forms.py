@@ -140,7 +140,7 @@ class FormSignup(forms.Form):
 
 
             with transaction.atomic():
-                  user = User.objects.create_user(
+                  User.objects.create_user(
                         username=first_name+last_name,
                         email=email,
                         password=password,
