@@ -4,5 +4,5 @@ from student.views import (
 )
 
 urlpatterns = [
-    path('enrollment/', enrollment, name='enrollment')
+    path('enrollment/<slug:slug>', enrollment, name='enrollment')
 ]
