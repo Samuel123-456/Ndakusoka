@@ -27,9 +27,8 @@ def enrollment(request, slug):
 
 
             if formset.is_valid():
-                  
                   formset.save(comprovativo)
-                  return redirect('home')
+                  return redirect('course')
             
             #TODO: REVERSE
             return redirect(reverse('enrollment', kwargs={'slug': request.COOKIES['course']}))
