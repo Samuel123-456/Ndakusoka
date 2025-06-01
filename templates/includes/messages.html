@@ -1,0 +1,11 @@
+{% if messages %}
+    {% for message in messages %}
+    {#id='div-message'#}
+    <div class="{{message.tags}} position-absolute m-3" id='div-messages' style='right:0'>
+        <div class="" id='django-message'>
+                <em>{{message}}</em>
+                <button style='right:0' class='btn btn-close p-0 ml-5 ' id='btn-close-messages'>x</button>
+        </div>
+    </div>
+    {% endfor %}
+{% endif %}
