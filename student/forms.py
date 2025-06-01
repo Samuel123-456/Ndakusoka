@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import messages
 from django.db import transaction
 from django.shortcuts import redirect
-from student.models import Student, Enrollment
+from student.models import Student, Enrollment, PaymentProof
 from course.models import Course
 from django.utils.timezone import datetime
 
@@ -96,7 +96,9 @@ class EnrollmentForm(forms.Form):
 
             return cleaned_data 
       
-      def save(self):
+      def save(self, comprovativo=None):
+
+            #TODO: TRATAR DO PROBLEMA: UM ALUNO PODE VARIAS FAZER INSCRICOES PARA UM UNICO CURSO 
 
             slug_course = self.request.COOKIES.get('course')
             course = Course.objects.filter(slug=slug_course)
@@ -130,4 +132,7 @@ class EnrollmentForm(forms.Form):
 
                   enrollment.save()
 
-            
+                  if comprovativo:
+                        pp = PaymentProof(enrollment=enrollment, proof=comprovativo)
+                        pp.save() 
+             
