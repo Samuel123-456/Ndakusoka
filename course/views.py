@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from course.models import (
       Course, 
       Module,
-      Comment
+      Comment,
+      Lesson
 )
 from student.models import Enrollment
 from django.contrib import messages
@@ -16,6 +17,10 @@ def viewCourses(request):
             ctx = {}
 
             ctx['courses'] = Course.objects.all()
+            enrollment = Enrollment.objects.filter(Q(student__user=request.user))
+
+            ctx['my_courses'] = [ enr.course for enr in enrollment ]
+            ctx['enrollment'] = enrollment
 
             return render(request, template_name, ctx)
 
@@ -76,3 +81,34 @@ def remove_comment(request, id):
       comment.save()
       
       return template_name
+
+def watchCourse(request, slug):
+      template_name = 'course/watch.html'
+      ctx = {}
+
+      course = Course.objects.filter(slug=slug)
+      if not course.exists():
+            return redirect(reverse('course'))
+      course = course.first()
+      
+      enrollement = Enrollment.objects.filter(Q(student__user=request.user) & Q(course=course))
+      if not enrollement.exists():
+            return redirect('course')
+      
+      modules = Module.objects.filter(Q(course=course))
+      lessons = Lesson.objects.filter(Q(modulo__course=course))
+
+      
+      ctx['course'] = course
+      ctx['modules'] = modules
+      ctx['lessons'] = lessons
+
+      ctx['is_payed'] = enrollement.first().is_payed
+
+      #TODO: SE SLUG NAO CORRESPONDER A UMA DETERMINDA AULA, ENTAO TENHO QUE MOSTRAR A AULA INICIAL
+      lesson_slug = request.GET.get('lesson')
+      current_lesson = Lesson.objects.filter(slug=lesson_slug).first()
+      if current_lesson:
+            ctx['current_lesson'] = current_lesson
+
+      return render(request, template_name, ctx)
