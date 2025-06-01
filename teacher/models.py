@@ -33,7 +33,7 @@ class Teacher(models.Model):
             ('TRH', 'TECNICO EM RECURSOS HUMANOS'),
       ]
 
-      user = models.ForeignKey(User, models.CASCADE)
+      user = models.OneToOneField(User, models.CASCADE)
 
       profile_image = models.ImageField(verbose_name='foto de perfil', upload_to='profile/')
       bio = models.TextField(verbose_name='Discricao')
