@@ -1,0 +1,28 @@
+.sidebar {
+      background-color: #FF6600;
+      overflow-y: auto;
+}
+.sidebar .modulo-title {
+      color: #fff;
+      cursor: pointer;
+}
+.sidebar .aula-item {
+      color: #E2E8F0;
+      padding-left: 1.5rem;
+      cursor: pointer;
+}
+.sidebar .aula-item:hover, .aula-selecionada {
+      color: #94ec07 !important; /* Laranja */
+}
+.video-container {
+      background: #000;
+      border-radius: 8px;
+      overflow: hidden;
+}
+.material-card {
+      border-left: 3px solid #F6AD55;
+}
+
+a {
+      text-decoration: none;
+}
