@@ -17,7 +17,7 @@
                     <div class="mb-5">
                         <h6 class="text-primary mb-3">{{course.created_at}}</h6>
                         <h1 class="mb-5">{{course.name}}</h1>
-                        <img class="img-fluid rounded w-100 mb-4" src="{{course.cover.url}}" alt="Image">
+                        <img class="img-fluid rounded w-100 mb-4" src="{{course.cover.url}}" alt="Image" style="height: 500px;">
                         <p class='text-justify'>{{course.description}}</p>
                         
                   
@@ -32,8 +32,8 @@
                         {% for comment in comments %}
                             {% if comment.is_active %}
                                 <div class="media mb-4">
-                                    <img src="{% if comment.get_author_by_user %}{{comment.get_author_by_user.profile_image.url}} {% else %} /media/profile/Captura_de_ecrã_de_2025-04-08_00-51-43.png {% endif %}" alt="Image" class="img-fluid rounded-circle mr-3 mt-1"
-                                        style="width: 45px;">
+                                    {% comment %} <img src="{% if comment.get_author_by_user %}{{comment.get_author_by_user.profile_image.url}} {% else %} /media/profile/Captura_de_ecrã_de_2025-04-08_00-51-43.png {% endif %}" alt="Image" class="img-fluid rounded-circle mr-3 mt-1"
+                                        style="width: 45px;"> {% endcomment %}
                                     <div class="media-body">
                                         <h6><strong>{{comment.author}}</strong> <small><i>{{comment.date_commented}}</i></small></h6>
                                         <p>{{comment.text}}</p>
