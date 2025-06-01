@@ -2,31 +2,32 @@
 {% extends "base/modelo.html" %}
 {% load static %}
 
+{% block 'cssfiles' %}
+    <link href="{% static 'bootstrp/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'bootstrp/font/bootstrap-icons.min.css' %}" rel="stylesheet">
+{% endblock 'cssfiles' %}
+
+
 {% block 'conteudo' %}
 <!-- Contact Start -->
-{% if messages %}
-    {% for message in messages %}
-    {#id='div-message'#}
-    <div class="{{message.tags}} position-absolute m-3" id='div-messages' style='right:0'>
-        <div class="" id='django-message'>
-                <em>{{message}}</em>
-                <button style='right:0' class='btn btn-close p-0 ml-5 ' id='btn-close-messages'>x</button>
-        </div>
-    </div>
-    {% endfor %}
-{% endif %}
+{% include "includes/messages.html" %}
 
 <div class="container-fluid py-2">
       <div class="container py-5">
           <div class="text-center mb-5">
-              <h5 class="text-primary text-uppercase mb-3" style="letter-spacing: 5px;">Matricula</h5>
-              <h1>Começa tua formação</h1>
+                <h5 class="text-primary text-uppercase mb-3" style="letter-spacing: 5px;">Matricula</h5>
+                <h1>Começa tua formação</h1>
+                {% if '1' == request.GET.pay %}
+                <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModel" class="btn btn-primary bi bi-qr-code-scan">
+                </button>
+                {% endif %}
+
           </div>
           <div class="row justify-content-center">
               <div class="col-lg-8" style='display:flex; justify-content:center;'>
                   <div class="contact-form bg-secondary rounded p-5" style='width:500px'>
                       <div id="success"></div>
-                      <form name="sentMessage" method='POST' action="{% url 'enrollment' %}">
+                      <form name="sentMessage" method='POST' action="{% url 'enrollment' request.COOKIES.course %}" enctype="multipart/form-data">
                             
                             {% csrf_token %}
                             <div class="control-group d-flex mb-2">
@@ -44,7 +45,40 @@
                             </div>
 
                           
+                            
 
+                            <div id="exampleModel" class="modal fade" tabindex="-1">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModelLabel">Meu Modal</h5>
+                                            <button class="close" type="button" data-bs-dismiss="modal" aria-label="modal">x</button>
+                                        </div>
+
+                                        <div class="modal-body d-flex justify-content-center w-fit">
+                                            <div>
+                                                <img src="{% static 'img/QR/17482009589752.png' %}" alt="">
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer d-flex justify-content-center bg-primary">
+                                            <h5 class="text-white">Scanea com o seu Unitel Money</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% if '1' == request.GET.pay %}
+                                <div class="control-group mb-4" style="cursor: copy;">
+                                    <div class="main-file">
+                                        
+                                        <p class="text-white"><span class="bi bi-upload mr-3 ml-2"></span> PDF do comprovativo</p>
+                                        <div class="openfile">
+                                            <input type="file" name="comprovativo" id="" id='inputQr' required>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
 
                             <div class="control-group mb-4">
                                 {{formset.bio}}
@@ -63,6 +97,6 @@
 {% endblock 'conteudo' %}
 
 {% block 'jsfiles' %}
-<script src="{% static 'js/message.js' %}"></script>
+<script src="{% static 'bootstrp/js/bootstrap.min.js' %}"></script>
 {% endblock 'jsfiles' %}
 
