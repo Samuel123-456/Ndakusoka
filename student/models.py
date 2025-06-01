@@ -27,13 +27,14 @@ class Student(models.Model):
             save : cria um slug para aluno antes de salvar
 
       """
+
       user = models.OneToOneField(User, models.CASCADE)
 
       phone = models.CharField(max_length=9, verbose_name='tel(+244)', blank=True)
       birth_date = models.DateField(verbose_name='Data de nascimento')
       name_certificate = models.CharField(max_length=100, verbose_name='Nome para o certificado')
       profile_image = models.ImageField(verbose_name='Foto de Perfil', upload_to='profile/', blank=True)
-      bio = models.TextField(verbose_name='Descricao', blank=True)
+      bio = models.TextField(verbose_name='Descricao', blank=True, null=True)
       slug = models.SlugField(verbose_name='nome na url', default=None, blank=True, editable=False)
       token = models.CharField(max_length=30, blank=True, editable=False) # por equanto nao sera editavel, qual aparecer uma funcionalidade que exige
 
@@ -68,4 +69,21 @@ class Enrollment(models.Model):
       date_enrolled = models.DateTimeField(verbose_name='Data de inscricao')
 
       def __str__(self):
-            return f'{self.student.name_certificate} ({self.course.name[:20]}...)'
+            return f'{self.student.name_certificate} ({self.course.name[:20]}...)'            
+      
+
+class PaymentProof(models.Model):
+      """
+      Model PaymentProof
+            def: Send the reference of the payment paper to be accepted by the admin
+
+      Attributes
+            enrollment (Enrollment): the enrollment datas
+            proof (File): the proof in PDF
+      """
+      enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
+      proof = models.FileField(verbose_name='Comprovativo', upload_to='payment_proof/')
+
+      def __str__(self):
+          return self.enrollment.student.user.username
+      
