@@ -229,13 +229,7 @@ class Comment(models.Model):
       
       def get_author_by_user(self):
             from student.models import Student
-            user = {
-                  "students": Student.objects.filter(user=self.author),
-                  "teacher": Teacher.objects.filter(user=self.author)
-            }
-
-            if user['students'].exists():
-                  return user['students'].first()
-            elif user['teacher'].exists():
-                  return user['teacher'].first()
-            return None
+            
+            my_user = [ usuario.objects.filter(user=self.author).first() for usuario in (Student, Teacher) if usuario.objects.filter(user=self.author).exists() ]
+            
+            return my_user[0]

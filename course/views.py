@@ -6,6 +6,8 @@ from course.models import (
 )
 from student.models import Enrollment
 from django.contrib import messages
+from django.urls import reverse
+from django.db.models import Q
 
 # Create your views here.
 def viewCourses(request):
@@ -28,7 +30,7 @@ def viewCourseSingle(request, slug):
       course = course.first()
       modules = Module.objects.filter(course=course)
       commets = Comment.objects.filter(course=course)
-      student = Enrollment.objects.filter(student__user=request.user, course=course)
+      student = Enrollment.objects.filter(Q(student__user=request.user) & Q(course=course))
 
       ctx['course'] = course
       ctx['modules'] = modules
@@ -47,50 +49,30 @@ def comment(request):
                   return redirect('home')
             
             course = Course.objects.get(slug=cookies['course'])
-            # course = get_object_or_404(Course, slug=slug)
-            user = request.user
-
-            #TODO: reverse()
-            url = f'/course/course-single/{course.slug}/'
-
             text = request.POST.get('text')
 
-            comment = Comment(
-                  author=user,
-                  course=course,
-                  text=text
-            )
+            Comment(author=request.user,course=course,text=text).save()
 
-            user = comment.get_author_by_user()
-            if not user:
-                  messages.add_message(request, messages.ERROR, 'Somente Estudantes/Professores podem comentar')
-                  return redirect(url)
-
-            comment.save()
-            return redirect(url)
-      # redirect(reverse('course_single', kwargs={'slug': {course.slug}}))
+            return redirect(reverse('course_single', kwargs={'slug': course.slug}))
 
 def remove_comment(request, id):
       comment = Comment.objects.filter(id=id)
       cookies = request.COOKIES
-      if 'course' not in cookies:
-            return redirect('home')
-      
-      course = Course.objects.get(slug=cookies['course'])
-      url = f'/course/course-single/{course.slug}'
-
+      template_name = redirect(reverse("course_single", kwargs={'slug': cookies['course']}))
 
       if not comment.exists():
             messages.add_message(request, messages.ERROR, 'Comentario Nao existe')
-            return redirect(url)
+            return template_name
       comment = comment.first()
 
       if comment.author != request.user:
             messages.add_message(request, messages.ERROR, 'Comentario Nao pertence a esse usuario')
-            return redirect(url)
+            return template_name
+      if 'course' not in cookies:
+            return redirect('home')
 
 
       comment.is_active = False
       comment.save()
       
-      return redirect(url)
+      return template_name
