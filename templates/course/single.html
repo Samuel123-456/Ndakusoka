@@ -1,9 +1,13 @@
 {% extends "base/base.html" %}
 {% load static %}
 
+{% block 'cssfiles' %}
+    <link href="{% static 'bootstrp/font/bootstrap-icons.min.css' %}" rel="stylesheet">
+{% endblock 'cssfiles' %}
+
 {% block 'conteudo' %}
 <hr>
-
+{% include "includes/messages.html" %}
 
     <!-- Detail Start -->
     <div class="container-fluid py-5">
@@ -28,7 +32,7 @@
                         {% for comment in comments %}
                             {% if comment.is_active %}
                                 <div class="media mb-4">
-                                    <img src="{{comment.get_author_by_user.profile_image.url}}" alt="Image" class="img-fluid rounded-circle mr-3 mt-1"
+                                    <img src="{% if comment.get_author_by_user %}{{comment.get_author_by_user.profile_image.url}} {% else %} /media/profile/Captura_de_ecrã_de_2025-04-08_00-51-43.png {% endif %}" alt="Image" class="img-fluid rounded-circle mr-3 mt-1"
                                         style="width: 45px;">
                                     <div class="media-body">
                                         <h6><strong>{{comment.author}}</strong> <small><i>{{comment.date_commented}}</i></small></h6>
@@ -36,7 +40,7 @@
 
                                         {# #TODO: COLOCAR ICON DE TRASH #}
                                         {% if request.user == comment.get_author_by_user.user %}
-                                            <button class="btn btn-sm btn-danger ">Remove</button> 
+                                            <a href='{% url "remove-comment" comment.id %}' class="btn btn-sm btn-danger" >Remove</a> 
                                         {% endif %}
                                     </div>
                                 </div>
@@ -45,19 +49,21 @@
                         {% endfor %}
                     </div>
 
-                    {% if request.user.is_authenticated %}
+                    {% if request.user.is_authenticated and student%}
                     <!-- Comment Form -->
                     <div class="bg-secondary rounded p-5">
                         <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Leave a comment</h3>
                         
                         {# #TODO: UTILIZAR HTMX PARA MENSAGENS EM TEMPO REAL #}
-                        <form method="post">
+                        <form method="POST" action="{% url 'comment' %}">
                             {% csrf_token %}
-                            <div class="form-group">
-                                <input type='text' id="input-comment"  class="form-control border-0">
+                            <div class="form-group d-flex">
+                                <input type='text' id="input-comment" name='text' placeholder="Escreva uma mensagem"  class="form-control border-0">
+                                <button type="submit" id="btn-comment" class="btn btn-primary ml-4 font-weight-semi-bold ">
+                                    <span class="bi bi-send"></span>
+                                </button>
                             </div>
                             <div class="form-group mb-0">
-                                <input type="submit" id='btn-comment' value="Leave Comment" class="btn btn-primary py-md-2 px-md-4 font-weight-semi-bold">
                             </div>
 
                         </form>
@@ -68,7 +74,7 @@
                 <div class="col-lg-4 mt-5 mt-lg-0">
                     <!-- Author Bio -->
                     <div class="d-flex flex-column text-center bg-dark rounded mb-5 py-5 px-4">
-                        <img src="{{course.teacher.profile_image.url}}" class="img-fluid rounded-circle mx-auto mb-3" style="width: 100px;">
+                        <img src="{{course.teacher.profile_image.url}}"  class="img-fluid rounded-circle mx-auto mb-3" style="width: 100px;">
                         <h3 class="text-primary mb-3">{{course.teacher}}</h3>
                         <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">{{course.teacher.field}}</h3>
                         <p class="text-white m-0">{{course.teacher.bio}}</p>
@@ -77,22 +83,26 @@
                     <!-- Search Form -->
 
                     <!-- Category List -->
-                    <div class="mb-5">
+                    {% if not student %}
+                    
+                    <div class="mb-5 border-4">
                         <h5 class="text-uppercase mb-4" style="letter-spacing: 5px;"><strong>FAÇA A SUA MATRÍCULA</strong></h5>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                <a href="" class="btn btn-primary btn-lg form-control text-decoration-none m-0"><strong class='font-size-40'>(AOA) {{course.price}}</strong></a>
+                                <a href="{% url 'enrollment' course.slug %}?&pay=1" class="btn btn-primary btn-lg form-control text-decoration-none m-0"><strong class='font-size-40'>(AOA) {{course.price}}</strong></a>
                             </li>
-                            <li class=" d-flex justify-content-between align-items-center px-0">
-                                <a href="{% url 'enrollment' %}?course={{course.slug}}" class=" text-decoration-none m-0"><strong class='font-size-40'>Quero me matricular de forma gratuita.</a>
+                            <li class="text-center align-items-center px-0">
+                                <a href="{% url 'enrollment' course.slug %}" class="m-0"><strong class='font-size-40'>Quero me matricular de forma gratuita.</a>
                             </li>
                         </ul>
                     </div>
 
+                    {% endif %}
+
 
                     <!-- Category List -->
                     <div class="mb-5">
-                        <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Cronograma</h3>
+                        <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Cronograma <span class="bi bi-calendar"></span></h3>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                 <a href="" class="text-decoration-none h6 m-0"><strong>MODULOS</strong></a>
