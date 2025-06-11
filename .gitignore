@@ -12,7 +12,7 @@ env/
 
 # Django static/media
 static/
-media/
+#media/
 
 # VSCode
 .vscode/
