@@ -3,6 +3,7 @@
 
 {% block 'cssfiles' %}
     <link href="{% static 'bootstrp/font/bootstrap-icons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'bootstrp/css/bootstrap.min.css' %}" rel="stylesheet">
 {% endblock 'cssfiles' %}
 
 {% block 'conteudo' %}
@@ -73,36 +74,37 @@
 
                 <div class="col-lg-4 mt-5 mt-lg-0">
                     <!-- Author Bio -->
-                    <div class="d-flex flex-column text-center bg-dark rounded mb-5 py-5 px-4">
+                    <div class="d-flex flex-column text-center bg-light border rounded mb-5 py-5 px-4">
                         <img src="{{course.teacher.profile_image.url}}"  class="img-fluid rounded-circle mx-auto mb-3" style="width: 100px;">
                         <h3 class="text-primary mb-3">{{course.teacher}}</h3>
-                        <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">{{course.teacher.field}}</h3>
-                        <p class="text-white m-0">{{course.teacher.bio}}</p>
+                        <p class="m-0"><strong>{{course.teacher.get_field_display}}</strong></p>
                     </div>
 
                     <!-- Search Form -->
 
                     <!-- Category List -->
-                    {% if not student %}
-                    
-                    <div class="mb-5 border-4">
-                        <h5 class="text-uppercase mb-4" style="letter-spacing: 5px;"><strong>FAÇA A SUA MATRÍCULA</strong></h5>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                <a href="{% url 'enrollment' course.slug %}?&pay=1" class="btn btn-primary btn-lg form-control text-decoration-none m-0"><strong class='font-size-40'>(AOA) {{course.price}}</strong></a>
-                            </li>
-                            <li class="text-center align-items-center px-0">
-                                <a href="{% url 'enrollment' course.slug %}" class="m-0"><strong class='font-size-40'>Quero me matricular de forma gratuita.</a>
-                            </li>
-                        </ul>
-                    </div>
+                    {% if request.user.is_authenticated %}
+                        {% if not student %}
+                        
+                        <div class="mb-5 border-4">
+                            <h5 class="text-uppercase mb-4" style="letter-spacing: 5px;"><strong>FAÇA A SUA MATRÍCULA</strong></h5>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                    <a href="{% url 'enrollment' course.slug %}?&pay=1" class="btn btn-primary btn-lg form-control text-decoration-none m-0"><strong class='font-size-40'>(AOA) {{course.price}}</strong></a>
+                                </li>
+                                <li class="text-center align-items-center px-0">
+                                    <a href="{% url 'enrollment' course.slug %}" class="m-0"><strong class='font-size-40'>Quero me matricular de forma gratuita.</a>
+                                </li>
+                            </ul>
+                        </div>
 
+                        {% endif %}
                     {% endif %}
 
 
                     <!-- Category List -->
                     <div class="mb-5">
-                        <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Cronograma <span class="bi bi-calendar"></span></h3>
+                        <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;"><span class="bi bi-calendar"></span> Cronograma </h3>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                 <a href="" class="text-decoration-none h6 m-0"><strong>MODULOS</strong></a>
@@ -129,10 +131,12 @@
     </div>
     <!-- Detail End -->
 
-    {% block 'jsfiles' %}
-    <script src="{% static "js/comment.js" %}"></script>
-    {% endblock 'jsfiles' %}
-
-
+    
+    
     
 {% endblock 'conteudo' %}
+
+{% block 'jsfiles' %}
+<script src="{% static "/js/comment.js" %}"></script>
+<script src="{% static "/bootstrp/js/bootstrap.min.js" %}"></script>
+{% endblock 'jsfiles' %}

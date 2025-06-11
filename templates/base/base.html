@@ -23,8 +23,8 @@
     <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="{% static 'css/style.css' %}" rel="stylesheet">
     {% block 'cssfiles' %}{% endblock 'cssfiles' %}
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
 </head>
 
 <body>
@@ -41,8 +41,8 @@
                         <div class="d-inline-flex align-items-center">
                               <i class="fa fa-2x fa-map-marker-alt text-primary mr-3"></i>
                               <div class="text-left">
-                              <h6 class="font-weight-semi-bold mb-1">Our Office</h6>
-                              <small>123 Street, New York, USA</small>
+                              <h6 class="font-weight-semi-bold mb-1">Nosso Estabelecimento</h6>
+                              <small>Angola, Luanda, Viana</small>
                               </div>
                         </div>
                   </div>
@@ -50,8 +50,8 @@
                         <div class="d-inline-flex align-items-center">
                               <i class="fa fa-2x fa-envelope text-primary mr-3"></i>
                               <div class="text-left">
-                              <h6 class="font-weight-semi-bold mb-1">Email Us</h6>
-                              <small>info@example.com</small>
+                              <h6 class="font-weight-semi-bold mb-1">Nosso Email</h6>
+                              <small>judithmassanga241@gmail.com</small>
                               </div>
                         </div>
                   </div>
@@ -59,8 +59,8 @@
                         <div class="d-inline-flex align-items-center">
                               <i class="fa fa-2x fa-phone text-primary mr-3"></i>
                               <div class="text-left">
-                              <h6 class="font-weight-semi-bold mb-1">Call Us</h6>
-                              <small>+012 345 6789</small>
+                              <h6 class="font-weight-semi-bold mb-1">Nosso Contacto</h6>
+                              <small>+244 921 798 460</small>
                               </div>
                         </div>
                   </div>
@@ -107,13 +107,13 @@
                                     <a href="{% url "about" %}" class="nav-item nav-link">Sobre</a>
                                     <a href="{% url "course" %}" class="nav-item nav-link">Cursos</a>
                                     <a href="{% url 'teachers' %}" class="nav-item nav-link">Professores</a>
-                                    <div class="nav-item dropdown">
+                                    {% comment %} <div class="nav-item dropdown">
                                           <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Blog</a>
                                           <div class="dropdown-menu rounded-0 m-0">
                                           <a href="blog.html" class="dropdown-item">Blog List</a>
                                           <a href="single.html" class="dropdown-item">Blog Detail</a>
                                           </div>
-                                    </div>
+                                    </div> {% endcomment %}
                                     <a href="{% url "contact" %}" class="nav-item nav-link">Contato</a>
                               </div>
                               {% if request.user.is_authenticated %}
@@ -142,10 +142,10 @@
                   <div class="col-lg-7 col-md-12">
                         <div class="row">
                         <div class="col-md-6 mb-5">
-                              <h5 class="text-primary text-uppercase mb-4" style="letter-spacing: 5px;">Get In Touch</h5>
-                              <p><i class="fa fa-map-marker-alt mr-2"></i>123 Street, New York, USA</p>
-                              <p><i class="fa fa-phone-alt mr-2"></i>+012 345 67890</p>
-                              <p><i class="fa fa-envelope mr-2"></i>info@example.com</p>
+                              <h5 class="text-primary text-uppercase mb-4" style="letter-spacing: 5px;"> Entre em Contato</h5>
+                              <p><i class="fa fa-map-marker-alt mr-2"></i>Angola, Luanda, Viana</p>
+                              <p><i class="fa fa-phone-alt mr-2"></i>+244 921 798 460</p>
+                              <p><i class="fa fa-envelope mr-2"></i>judithmassanga241@gmail.com</p>
                               <div class="d-flex justify-content-start mt-4">
                                     <a class="btn btn-outline-light btn-square mr-2" href="#"><i class="fab fa-twitter"></i></a>
                                     <a class="btn btn-outline-light btn-square mr-2" href="#"><i class="fab fa-facebook-f"></i></a>
@@ -154,7 +154,7 @@
                               </div>
                         </div>
                         <div class="col-md-6 mb-5">
-                              <h5 class="text-primary text-uppercase mb-4" style="letter-spacing: 5px;">Our Courses</h5>
+                              <h5 class="text-primary text-uppercase mb-4" style="letter-spacing: 5px;">Nossos Cursos</h5>
                               <div class="d-flex flex-column justify-content-start">
                                     <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Web Design</a>
                                     <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Apps Design</a>
@@ -166,8 +166,13 @@
                         </div>
                   </div>
                   <div class="col-lg-5 col-md-12 mb-5">
-                        <h5 class="text-primary text-uppercase mb-4" style="letter-spacing: 5px;">Newsletter</h5>
-                        <p>Rebum labore lorem dolores kasd est, et ipsum amet et at kasd, ipsum sea tempor magna tempor. Accu kasd sed ea duo ipsum. Dolor duo eirmod sea justo no lorem est diam</p>
+                        <h5 class="text-primary text-uppercase mb-4" style="letter-spacing: 5px;">Boletim Informativo</h5>
+                              <p>
+                                    Fique por dentro das novidades do Ndakusoka!
+                                    Assine nosso boletim informativo e receba atualizações sobre novos cursos, conteúdos gratuitos, dicas exclusivas e oportunidades de certificação direto no seu e-mail.
+                                    <p>🔒 Prometemos não enviar spam. Apenas conteúdo útil para sua jornada de aprendizado.</p>
+      
+                              </p>
                         <div class="w-100">
                         <div class="input-group">
                               <input type="text" class="form-control border-light" style="padding: 30px;" placeholder="Your Email Address">
@@ -216,13 +221,9 @@
       <script src="{% static "lib/easing/easing.min.js" %}"></script>
       <script src="{% static "lib/owlcarousel/owl.carousel.min.js" %}"></script>
 
-      <!-- Contact Javascript File -->{% comment %} 
-      <script src="{% static "mail/jqBootstrapValidation.min.js" %}"></script>
-      <script src="{% static "mail/contact.js" %}"></script> {% endcomment %}
 
       <!-- Template Javascript -->
       <script src="{% static "js/main.js" %}"></script>
-      {#<script src="{% static "js/message.js" %}"></script>#}
       <script src="{% static 'js/message.js' %}"></script>
 
       {% block 'jsfiles' %}{% endblock 'jsfiles' %}

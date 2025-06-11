@@ -3,20 +3,18 @@
 
 
 {% block 'cssfiles' %}
-      <title>Ndakussoka - Assistir Curso</title>
-      <!-- Bootstrap CSS -->
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-      <!-- Ícones (Bootstrap Icons) -->
-    <link href="{% static 'bootstrp/font/bootstrap-icons.min.css' %}" rel="stylesheet">
-
-      <link href="{% static 'css/course-watch.css' %}" rel="stylesheet">
+  <!-- Bootstrap CSS -->
+  <!-- Ícones (Bootstrap Icons) -->
+  <link href="{% static '/bootstrp/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'bootstrp/font/bootstrap-icons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/course-watch.css' %}" rel="stylesheet">
 {% endblock 'cssfiles' %}
 
 {% block 'conteudo' %}
-  <div class="container-fluid">
-    <div class="row">
+  <div class="container-fluid p-0">
+    <div class="d-flex m-0 p-0">
       <!-- Sidebar (Módulos/Aulas) -->
-      <div class="col-md-3 col-lg-2 sidebar p-3">
+      <div class="sidebar p-3">
         <h5 class="text-white mb-4">Módulos do Curso</h5>
         
         {% for module in modules %}
@@ -32,7 +30,7 @@
                         {% for lesson in lessons  %}
                               {% if lesson.modulo == module %}
                                   <li class="aula-item py-1">
-                                    <a class='text-white' href='?lesson={{lesson.slug}}'>{{lesson}}</a>
+                                    <a class='text-white' href='?lesson={{lesson.slug}}'><i class='bi bi-tv mr-2'></i>{{lesson}}</a>
                                   </li>  
                               {% endif %}
                         {% endfor %}
@@ -41,25 +39,15 @@
             </div>
             </div>
         {% endfor %}
-        {% comment %} <!-- Módulo 2 -->
-        <div class="modulo mb-3">
-          <div class="modulo-title d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#modulo2">
-            <span>Módulo 2: Básico</span>
-            <i class="bi bi-chevron-down"></i>
-          </div>
-          <div class="collapse" id="modulo2">
-            <ul class="list-unstyled mt-2">
-              <li class="aula-item py-1">Aula 3: Primeiros Passos</li>
-              <li class="aula-item py-1">Aula 4: Prática</li>
-            </ul>
-          </div>
-        </div> {% endcomment %}
       </div>
 
       <!-- Conteúdo Principal (Vídeo + Materiais) -->
       <div class="col-md-9 col-lg-10 py-4 px-4">
         <!-- Título da Aula -->
-        <h2 class="mb-4">Aula: {{current_lesson}}</h2>
+        <div class='d-flex justify-content-between'>
+          <h2 class="mb-4">Aula: {{current_lesson|upper}}</h2>
+          <h2 class="mb-4"><a href='{% url "home" %}'><i class='bi bi-house'></i></a></h2>
+        </div>
         
         <!-- Player de Vídeo -->
         <div class="video-container mb-4 ratio ratio-16x9">
@@ -94,8 +82,8 @@
           <div class="col-md-6 mb-3">
             <div class="card h-100 material-card">
               <div class="card-body">
-                <h5 class="card-title"><i class="bi bi-link-45deg"></i> Links Úteis</h5>
-                <p class="card-text">Referências e documentação complementar.</p>
+                <h5 class="card-title"><i class="bi bi-link-45deg"></i> Links do Desafio</h5>
+                <p class="card-text">Completar os Desafios da Aula.</p>
                 <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-box-arrow-up-right"></i> Acessar</a>
               </div>
             </div>
@@ -107,11 +95,11 @@
   </div>
   
   
-  {% endblock 'conteudo' %}
+{% endblock 'conteudo' %}
   
-  {% block 'jsfiles' %}
-  
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% block 'jsfiles' %}
+
+  <!-- Bootstrap JS -->
+  <script src="{% static '/bootstrp/js/bootstrap.min.js' %}"></script>
 
 {% endblock 'jsfiles' %}

@@ -82,6 +82,11 @@ class Course(models.Model):
       def get_total_comments(self):
             return Comment.objects.filter(course=self, is_active=True).count()
 
+      def get_total_students(self):
+            from student.models import Enrollment
+
+            enrollment = Enrollment.objects.filter(course=self)
+            return enrollment.count()
 
 
 class Module(models.Model):
@@ -241,3 +246,5 @@ class Comment(models.Model):
             my_user = [ usuario.objects.filter(user=self.author).first() for usuario in (Student, Teacher) if usuario.objects.filter(user=self.author).exists() ]
             
             return my_user[0]
+
+

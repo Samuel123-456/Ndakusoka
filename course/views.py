@@ -17,10 +17,12 @@ def viewCourses(request):
             ctx = {}
 
             ctx['courses'] = Course.objects.all()
-            enrollment = Enrollment.objects.filter(Q(student__user=request.user))
 
-            ctx['my_courses'] = [ enr.course for enr in enrollment ]
-            ctx['enrollment'] = enrollment
+            my_courses = list()
+            if request.user.is_authenticated:
+                  enrollments = Enrollment.objects.filter(Q(student__user=request.user))
+                  my_courses = [ enrollment.course for enrollment in enrollments ]
+            ctx['my_courses'] = my_courses
 
             return render(request, template_name, ctx)
 
@@ -35,7 +37,10 @@ def viewCourseSingle(request, slug):
       course = course.first()
       modules = Module.objects.filter(course=course)
       commets = Comment.objects.filter(course=course)
-      student = Enrollment.objects.filter(Q(student__user=request.user) & Q(course=course))
+
+      student = None
+      if request.user.is_authenticated:
+            student = Enrollment.objects.filter(Q(student__user=request.user) & Q(course=course))
 
       ctx['course'] = course
       ctx['modules'] = modules

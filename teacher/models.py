@@ -23,14 +23,14 @@ class Teacher(models.Model):
 
       """
       FIELD_CHOICES = [
-            ('TA', 'TECNICO EM ADMINISTRACAO'),
-            ('TC', 'TECNICO EM COMERCIO'),
-            ('TCE', 'TECNICO EM COMERCIO EXTERIOR'),
-            ('TCB', 'TECNICO EM CONTABILIDADE'),
-            ('TF', 'TECNICO EM FINANCAS'),
-            ('TM', 'TECNICO EM MARKETING'),
-            ('TL', 'TECNICO EM LOGISTICA'),
-            ('TRH', 'TECNICO EM RECURSOS HUMANOS'),
+            ('TA', 'ADMINISTRACAO'),
+            ('TC', 'COMERCIO'),
+            ('TCE', 'COMERCIO EXTERIOR'),
+            ('TCB', 'CONTABILIDADE'),
+            ('TF', 'FINANCAS'),
+            ('TM', 'MARKETING'),
+            ('TL', 'LOGISTICA'),
+            ('TRH', 'RECURSOS HUMANOS'),
       ]
 
       user = models.OneToOneField(User, models.CASCADE)
@@ -52,4 +52,8 @@ class Teacher(models.Model):
                   self.token = token_urlsafe()
             
             return super().save(*args, **kwargs)
+
+      def get_field(self):
+            print(self.field)
+            return self.field
       

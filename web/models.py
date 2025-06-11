@@ -18,5 +18,5 @@ class SocialMedia(models.Model):
             ('LI', 'LinkedIn'),
       ]
       user = models.ForeignKey(User, models.CASCADE)
-      social_media = models.CharField(verbose_name='Redes Sociais', choices=SM_CHOICES)
+      social_media = models.CharField(verbose_name='Redes Sociais', choices=SM_CHOICES, max_length=100) 
       link = models.URLField(verbose_name='Link da rede social', unique=True)

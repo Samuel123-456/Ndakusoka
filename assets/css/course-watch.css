@@ -1,6 +1,7 @@
 .sidebar {
       background-color: #FF6600;
       overflow-y: auto;
+      width: 100%;
 }
 .sidebar .modulo-title {
       color: #fff;
