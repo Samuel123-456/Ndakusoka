@@ -2,13 +2,13 @@ from django.urls import path
 from web.views import (
       teachers,
       contact,
-      about,
       home,
+      AboutTemplateView
 )
 
 urlpatterns = [
       path('teacher/', teachers, name='teachers'),
       path('contact/', contact, name='contact'),
-      path('about/', about, name='about'),
+      path('about/', AboutTemplateView.as_view(), name='about'),
       path('', home, name='home'),
 ]
