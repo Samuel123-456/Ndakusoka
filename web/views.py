@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from teacher.models import Teacher
 from django.core.paginator import Paginator
+from django.views.generic import TemplateView
 
 # Create your views here.
 def home(request):
@@ -28,11 +29,9 @@ def teachers(request):
       # TODO: USAR JS PARA QUANDO CLICAR NUM MENU ELE PINTA O RECENTE 
 
 
-def about(request):
+class AboutTemplateView(TemplateView):
       template_name = 'web/about.html'
-      ctx = {}
 
-      return render(request, template_name, ctx) 
 
 def contact(request):
       template_name = 'web/contact.html'
