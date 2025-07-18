@@ -4,11 +4,8 @@ from django.core.paginator import Paginator
 from django.views.generic import TemplateView
 
 # Create your views here.
-def home(request):
+class HomeTemplateView(TemplateView):
       template_name = 'web/index.html'
-      ctx = {}
-
-      return render(request, template_name, ctx)
 
       # TODO: DISPONIBILIZAR APENAS 3 CURSOS NO HOME PAGE
 
