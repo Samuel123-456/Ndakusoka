@@ -3,7 +3,6 @@
 
 {% block 'cssfiles' %}
     <link href="{% static 'bootstrp/font/bootstrap-icons.min.css' %}" rel="stylesheet">
-
 {% endblock 'cssfiles' %}
 
 {% block 'conteudo' %}
@@ -27,11 +26,19 @@
     <!-- Courses Start -->
     <div class="container-fluid py-5">
         <div class="container py-5">
-            <div class="text-center mb-5">
+            {% comment %} #TODO: Listar os cursos que estou inserido, e depois listar os que nao estou {% endcomment %}
+            {% comment %} 
+                {% for course in my_courses %}
+                    {{course}}
+                {% endfor %}    
+            {% endcomment %}
+            <div class="text-center mb-5"> 
                 <h5 class="text-primary text-uppercase mb-3" style="letter-spacing: 5px;">Cursos</h5>
                 <h1>Nossos Cursos</h1>
             </div>
             <div class="row">
+                
+
                 {% for course in courses %}
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="rounded overflow-hidden mb-2">
@@ -43,29 +50,40 @@
                                     <small class="m-0"><i class="fa fa-users text-primary mr-2"></i>{{course.get_total_students}} Students</small>
                                     <small class="m-0"><i class="far fa-clock text-primary mr-2"></i>{{course.hour_load}}</small>
                                 </div>
-                                <a href="{% url "course_single" course.slug %}">{{course.name|truncatechars:33}}</a>
+                                <a href="{% url "course:detail-course" course.slug %}">{{course.name|truncatechars:33}}</a>
                                 <div class="border-top mt-2 pt-4">
                                     <div class="d-flex justify-content-between">
                                         <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>
-                            
-                                            {% if course in my_courses %}
-                                                <a class="m-0" href="{% url "watch" course.slug %}">
-                                                    <h5 class='bi bi-collection-play m-0 p-0 text-primary'></h5>
-                                                </a>
-                                            {% else %}        
-                                                <h5 class="m-0">AOA {{course.price}}</h5>
-                                            {% endif %}
+
+                                        {% if course in my_courses %}
+                                        <a class="m-0" href="{% url "course:watch" course.slug %}">
+                                            <h5 class='bi bi-collection-play m-0 p-0 text-primary'></h5>
+                                        </a>
+                                        {% else %}        
+                                        
+                                        <h5 class="m-0">{{nome}} AOA {{course.price}}</h5>
+                                        {% endif %}
                                     </div>
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
                 {% endfor %}
             </div>
+            <div class='d-flex justify-content-center'>
+                {% if page_obj.has_previous %}
+                    <a href='?page={{page_obj.previous_page_number}}' class='btn bg-primary text-white m-2'>Previous</a>
+                {% endif %}
+
+                
+
+                {% if page_obj.has_next %}
+                    <a href='?page={{page_obj.next_page_number}}' class='btn bg-primary text-white m-2'>Next</a>
+                {% endif %}
+            </div>
         </div>
     </div>
     <!-- Courses End -->
+    
     
 {% endblock 'conteudo' %}

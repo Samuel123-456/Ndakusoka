@@ -41,7 +41,7 @@
 
                                         {# #TODO: COLOCAR ICON DE TRASH #}
                                         {% if request.user == comment.get_author_by_user.user %}
-                                            <a href='{% url "remove-comment" comment.id %}' class="btn btn-sm btn-danger" >Remove</a> 
+                                            <a href='{% url "course:delete-comment" comment.id course.slug %}' class="btn btn-sm btn-danger" >Remove</a> 
                                         {% endif %}
                                     </div>
                                 </div>
@@ -50,25 +50,25 @@
                         {% endfor %}
                     </div>
 
-                    {% if request.user.is_authenticated and student%}
-                    <!-- Comment Form -->
-                    <div class="bg-secondary rounded p-5">
-                        <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Leave a comment</h3>
-                        
-                        {# #TODO: UTILIZAR HTMX PARA MENSAGENS EM TEMPO REAL #}
-                        <form method="POST" action="{% url 'comment' %}">
-                            {% csrf_token %}
-                            <div class="form-group d-flex">
-                                <input type='text' id="input-comment" name='text' placeholder="Escreva uma mensagem"  class="form-control border-0">
-                                <button type="submit" id="btn-comment" class="btn btn-primary ml-4 font-weight-semi-bold ">
-                                    <span class="bi bi-send"></span>
-                                </button>
-                            </div>
-                            <div class="form-group mb-0">
-                            </div>
+                    {% if is_student %}
+                        <!-- Comment Form -->
+                        <div class="bg-secondary rounded p-5">
+                            <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Leave a comment</h3>
+                            
+                            {# #TODO: UTILIZAR HTMX PARA MENSAGENS EM TEMPO REAL #}
+                            <form method="POST" action="{% url 'course:create-comment' course.slug %}">
+                                {% csrf_token %}
+                                <div class="form-group d-flex">
+                                    <input type='text' id="input-comment" name='text' placeholder="Escreva uma mensagem"  class="form-control border-0">
+                                    <button type="submit" id="btn-comment" class="btn btn-primary ml-4 font-weight-semi-bold ">
+                                        <span class="bi bi-send"></span>
+                                    </button>
+                                </div>
+                                <div class="form-group mb-0">
+                                </div>
 
-                        </form>
-                    </div>
+                            </form>
+                        </div>
                     {% endif %}
                 </div>
 
