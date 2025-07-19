@@ -2,16 +2,15 @@ from django.shortcuts import render, redirect
 from course.models import (
       Course, 
       Module,
-      Comment,
       Lesson
 )
 from student.models import Enrollment
-from django.contrib import messages
 from django.urls import reverse
 from django.db.models import Q
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from typing import Any
+from .comments import CommentView, Comment
  
 
 # Create your views here.
@@ -37,6 +36,9 @@ class CourseListView(ListView):
       
 
 class CourseDetailView(DetailView):
+
+      """ CourseDetailView: Show details of the course """
+
       model = Course
       template_name = 'course/detail.html'
 
@@ -53,34 +55,12 @@ class CourseDetailView(DetailView):
             return context
       
 
-class CommentHandler:
+class CommentHandler(CommentView):
+
       """CommentHandler: Create and Delete course comments"""
 
-      @classmethod
-      def create_comment(self, request, slug: str):
-            url = reverse("course:detail", kwargs={"slug": slug})
+      pass
 
-            course = Course.objects.filter(slug=slug)
-            if course.exists() == False: return redirect(url)
-            
-            text_comment = str(request.POST.get('text', None)).strip()
-            if not text_comment: return redirect(url)
-            
-
-            Comment.objects.create(author=request.user, course=course.first(), text=text_comment)
-            return redirect(url)
-      
-      
-      @classmethod
-      def delete_comment(self, request, id: str, slug: str):
-            comment = Comment.objects.filter(Q(author=request.user) & Q(id=id))
-            if comment.exists():
-                  comment.first().delete()
-            else:
-                  messages.add_message(request, messages.ERROR, "Comentario nao foi removido")
-            
-            return redirect(reverse("course:detail", kwargs={"slug": slug}))
-     
 
 def watchCourse(request, slug):
       template_name = 'course/watch.html'

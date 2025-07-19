@@ -12,8 +12,8 @@ app_name = 'course'
 
 urlpatterns = [
       # Course
-      path('list/', CourseListView.as_view(), name='list'),
-      path('detail/<slug:slug>', CourseDetailView.as_view(), name='detail'),
+      path('list/', CourseListView.as_view(), name='list-course'),
+      path('detail/<slug:slug>', CourseDetailView.as_view(), name='detail-course'),
       path('course-watch/<slug:slug>', watchCourse, name='watch'),
       
       # Comments
