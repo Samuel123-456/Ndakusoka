@@ -1,17 +1,22 @@
 from django.urls import path
 from course.views import (
-      viewCourses,
-      viewCourseSingle,
-      comment,
-      remove_comment,
-      watchCourse
+      watchCourse,
+
+      #CBV
+      CourseListView,
+      CourseDetailView,
+      CommentHandler
 )
 
+app_name = 'course'
 
 urlpatterns = [
-      path('', viewCourses, name='course'),
-      path('comment/', comment, name='comment'),
-      path('remove/<int:id>', remove_comment, name='remove-comment'),
-      path('course-single/<slug:slug>', viewCourseSingle, name='course_single'),
-      path('course-watch/<slug:slug>', watchCourse, name='watch')
+      # Course
+      path('list/', CourseListView.as_view(), name='list'),
+      path('detail/<slug:slug>', CourseDetailView.as_view(), name='detail'),
+      path('course-watch/<slug:slug>', watchCourse, name='watch'),
+      
+      # Comments
+      path('comment/create/<slug:slug>', CommentHandler.create_comment, name='create-comment'),
+      path('comment/delete/<int:id>/<slug:slug>', CommentHandler.delete_comment, name='delete-comment'),
 ]
